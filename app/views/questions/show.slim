@@ -1,0 +1,12 @@
+h1= @question.title
+p= @question.body
+hr
+h2 Create answer
+=form_for [@question, @answer] do |f|
+  =f.text_area :body, placeholder: "Write your answer"
+  =f.submit 'create answer'
+hr
+h3 Answers
+
+-@answers.each do |answer|
+  p=answer.body
