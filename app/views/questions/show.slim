@@ -1,5 +1,8 @@
 h1= @question.title
 p= @question.body
+p= "Author of question #{@question.user_id}"
+-if user_signed_in? 
+  p= link_to 'Delete question', question_path(@question), method: :delete
 hr
 h2 Create answer
 =form_for [@question, @answer] do |f|
@@ -7,6 +10,9 @@ h2 Create answer
   =f.submit 'create answer'
 hr
 h3 Answers
-
+ul
 -@answers.each do |answer|
-  p=answer.body
+  li= "#{answer.body}(#{answer.user_id})"
+  -if user_signed_in? 
+    p= link_to 'Delete answer', question_answer_path(question_id: @question, id: answer), method: :delete
+  hr
