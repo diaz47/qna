@@ -13,4 +13,12 @@ module AcceptanceHelper
     fill_in 'Body', with: 'My question'
     click_on 'Ask'
   end
+
+  def create_invalid_question
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: ''
+    fill_in 'Body', with: 'My question'
+    click_on 'Ask'
+  end
 end

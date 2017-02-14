@@ -25,8 +25,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-      @question.destroy
-      redirect_to questions_path, notice: "Your question was deleted"
+    @question.destroy
+    redirect_to questions_path, notice: "Your question was deleted"
   end
 
   private

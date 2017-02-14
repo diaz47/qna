@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
+  let(:question_user) { create(:question, user: user) }
 
   describe 'GET #index' do 
     let(:questions) { create_list(:question, 2) }
@@ -73,8 +75,30 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    it 'delete question from the db' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(1) 
+    context 'Author question' do
+      it 'question user id == user id' do
+        expect(question_user.user_id).to eq user.id
+      end
+      it 'delete question from the db' do
+        expect { delete :destroy, id: question_user, user_id: user }.to change(Question, :count).by(-1) 
+      end
+      it 'redirect to questions path' do
+        delete :destroy, id: question_user, user_id: user
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'No Author' do
+      it 'question user id != user id' do
+        expect(question.user_id).to_not eq user.id
+      end
+      it 'delete question from the db' do
+        expect { delete :destroy, id: question, user_id: user }.to change(Question, :count).by(0) 
+      end
+      it 'redirect to question path' do
+        delete :destroy, id: question, user_id: user
+        expect(response).to redirect_to question_path(question)
+      end
     end
   end
 end

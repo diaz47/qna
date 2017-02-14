@@ -34,7 +34,7 @@ class AnswersController < ApplicationController
 
   def check_answer_author
     unless current_user.id == @answer.user_id
-      flash[:notice] = "You cannot delete this question"
+      flash[:notice] = "You cannot delete this answer"
       redirect_to question_path(params[:question_id])
     end
   end
