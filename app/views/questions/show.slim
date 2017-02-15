@@ -4,10 +4,7 @@ p= "Author of question #{@question.user_id}"
 -if user_signed_in? && current_user.id == @question.user_id
   p= link_to 'Delete question', question_path(@question), method: :delete
 hr
-h2 Create answer
-=form_for [@question, @answer] do |f|
-  =f.text_area :body, placeholder: "Write your answer"
-  =f.submit 'create answer'
+=render 'shared/create_answer'
 hr
 h3 Answers
 ul

@@ -6,13 +6,7 @@ FactoryGirl.define do
   factory :question do
     title
     body "MyText"
-    association :user
-
-    factory :question_with_answer, class: 'Question' do
-      after(:create) do |question|
-        create(:answer, question: question)
-      end
-    end
+    user
     
   end 
 

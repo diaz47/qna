@@ -1,4 +1,4 @@
--if @answer.errors.any?
+-if @answer.errors.any? 
   p= "При создании ответа были допущены ошибки: #{@answer.errors.count}"
   -@answer.errors.full_messages.each do |message|
     p= message

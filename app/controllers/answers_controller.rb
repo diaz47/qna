@@ -1,8 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:destroy, :check_answer_author]
-  before_action :check_answer_author, only: [:destroy]
+  before_action :set_answer, only: [:destroy]
 
 
   def create
@@ -10,13 +9,19 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: "Your answer successfully created"
     else
-      render :new
+      @answers = @question.answers.all
+      render "questions/show"
     end
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_path(params[:question_id]), notice: 'Your answer was success deleted'
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      notice = "Your answer was success deleted"
+    else
+      notice = "You cannot delete this answer"
+    end
+    redirect_to question_path(params[:question_id]), notice: notice
   end
 
   private
@@ -32,10 +37,4 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
 
-  def check_answer_author
-    unless current_user.id == @answer.user_id
-      flash[:notice] = "You cannot delete this answer"
-      redirect_to question_path(params[:question_id])
-    end
-  end
 end

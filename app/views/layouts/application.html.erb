@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <%= user_signed_in? ? link_to("Log out(#{current_user.id})", destroy_user_session_path, method: :delete) : '' %>
+    <%= user_signed_in? ? link_to("Log out", destroy_user_session_path, method: :delete) : '' %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>

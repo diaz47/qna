@@ -2,12 +2,15 @@ require 'rails_helper'
 
 feature 'Add new Questions' do
   given(:user) { create(:user) }
-  given(:answers) { create_list(:answer, 2) }
   given(:questions) { create_list(:question, 2) }
 
   scenario 'Authenticated user try to create valid question' do
     sign_in(user)
-    create_question
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: 'My title'
+    fill_in 'Body', with: 'My question'
+    click_on 'Ask'
 
     expect(page).to have_content 'Your question successfully created'
     expect(page).to have_content 'My title'
@@ -16,7 +19,11 @@ feature 'Add new Questions' do
 
   scenario 'Authenticated user try to create invalid question' do
     sign_in(user)
-    create_invalid_question
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: ''
+    fill_in 'Body', with: 'My question'
+    click_on 'Ask'
 
     expect(page).to have_content "Title can't be blank"
   end
