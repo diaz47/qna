@@ -18,6 +18,11 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).user).to eq @user
       end
 
+      it 'sets question_id equal to the curent question' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(assigns(:answer).question).to eq question
+      end
+
       it 'redirect to question :show' do
         post :create, answer: attributes_for(:answer), question_id: question
         expect(response).to redirect_to question
@@ -42,10 +47,10 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author try delete' do
       let!(:answer) { create(:answer, user: @user, question: question)}
       it 'delete answer from the db' do
-        expect{ delete :destroy, id: answer, question_id: question, user: @user }.to change(Answer, :count).by(-1)
+        expect{ delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
       end
       it 'redirects to question show view' do
-        delete :destroy, question_id: question, id: answer.id, user: @user
+        delete :destroy, question_id: question, id: answer
         expect(response).to redirect_to question_path(answer.question)
       end
     end
@@ -53,7 +58,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'No Author try delete' do
       let!(:answer) { create(:answer, question: question)}
       it 'not delete answer from the db' do
-        expect{ delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(0)
+        expect{ delete :destroy, id: answer, question_id: question }.to_not change(Answer, :count)
       end
       it 'redirect to question path' do
         delete :destroy, id: answer, question_id: question

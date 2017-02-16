@@ -1,15 +1,15 @@
 h1= @question.title
 p= @question.body
-p= "Author of question #{@question.user_id}"
--if user_signed_in? && current_user.id == @question.user_id
+
+-if user_signed_in? && current_user.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
 hr
-=render 'shared/create_answer'
+=render 'answers/form'
 hr
 h3 Answers
 ul
 -@answers.each do |answer|
   li= "#{answer.body}(#{answer.user_id})"
-  -if user_signed_in? && current_user.id == answer.user_id
+  -if user_signed_in? && current_user.author_of?(answer)
     p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete
   hr
