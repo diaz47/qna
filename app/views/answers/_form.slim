@@ -1,0 +1,10 @@
+-if @answer.errors.any? 
+  p= "При создании ответа были допущены ошибки: #{@answer.errors.count}"
+  -@answer.errors.full_messages.each do |message|
+    p= message
+
+h2 Create answer
+=form_for [@question, @answer] do |f|
+  =f.text_area :body, placeholder: "Write your answer"
+  =f.submit 'create answer'
+  
