@@ -2,20 +2,19 @@ require 'rails_helper'
 
 feature 'Add answer for question' do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given!(:question) { create(:question) }
 
-  scenario 'Authenticated user try to create valid answer for question' do
+  scenario 'Authenticated user try to create valid answer for question', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Write your answer', with: 'my answer'
     click_on 'create answer'
 
-    expect(page).to have_content 'Your answer successfully created'
     expect(page).to have_content 'my answer'
     expect(current_path).to eq question_path(question)
   end
 
-   scenario 'Authenticated user try to create invalid answer for question' do
+   scenario 'Authenticated user try to create invalid answer for question', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Write your answer', with: ''

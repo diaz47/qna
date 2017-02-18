@@ -1,0 +1,4 @@
+li= "#{answer.body}(#{answer.user_id})"
+-if user_signed_in? && current_user.author_of?(answer)
+  p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete
+hr

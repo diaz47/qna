@@ -10,33 +10,33 @@ RSpec.describe AnswersController, type: :controller do
       let(:answer) { create(:answer, user: @user)}
 
       it 'save new answer in db' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(Answer, :count).by(1)
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(Answer, :count).by(1)
       end
 
       it 'sets user_id equal to the curent user' do
-        post :create, question_id: question, answer: attributes_for(:answer)
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer).user).to eq @user
       end
 
       it 'sets question_id equal to the curent question' do
-        post :create, question_id: question, answer: attributes_for(:answer)
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer).question).to eq question
       end
 
-      it 'redirect to question :show' do
-        post :create, answer: attributes_for(:answer), question_id: question
-        expect(response).to redirect_to question
+      it 'render create template' do
+        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(response).to render_template :create
       end
     end
 
     context 'with invalid data' do 
       it 'do not save answer in db' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question }.to_not change(Answer, :count)
+        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
       end
       
-      it 'redirect to question :show' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question
-        expect(response).to render_template "questions/show"
+      it 'render template create' do
+        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        expect(response).to render_template :create
       end
     end
   end
