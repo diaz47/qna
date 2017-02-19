@@ -1,4 +1,4 @@
-require 'rails_helper' 
+require_relative '../acceptance_helper'
 
 feature 'Show answers on the page' do
   given(:question) { create(:question)}
