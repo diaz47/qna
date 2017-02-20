@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:destroy, :update]
 
 
   def create
@@ -21,6 +21,13 @@ class AnswersController < ApplicationController
       notice = "You cannot delete this answer"
     end
     redirect_to question_path(params[:question_id]), notice: notice
+  end
+
+  def update
+    @question = @answer.question
+    if current_user.author_of?(@answer) 
+      @answer.update(answer_params)
+    end
   end
 
   private

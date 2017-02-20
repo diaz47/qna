@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require 'rails_helper'
 
 feature 'Show questions on the page' do
   given(:questions) { create_list(:question, 5) }

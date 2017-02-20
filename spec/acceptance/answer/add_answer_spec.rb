@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require 'rails_helper'
 
 feature 'Add answer for question' do
   given(:user) { create(:user) }

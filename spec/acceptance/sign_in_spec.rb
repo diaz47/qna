@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require 'rails_helper'
 
 feature 'User sign in' do
   given(:user) { create(:user) }
