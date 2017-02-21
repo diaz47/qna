@@ -47,22 +47,22 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author try delete' do
       let!(:answer) { create(:answer, user: @user, question: question)}
       it 'delete answer from the db' do
-        expect{ delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect{ delete :destroy, id: answer, question_id: question, format: :js}.to change(Answer, :count).by(-1)
       end
-      it 'redirects to question show view' do
-        delete :destroy, question_id: question, id: answer
-        expect(response).to redirect_to question_path(answer.question)
+      it 'render template' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     context 'No Author try delete' do
       let!(:answer) { create(:answer, question: question)}
       it 'not delete answer from the db' do
-        expect{ delete :destroy, id: answer, question_id: question }.to_not change(Answer, :count)
+        expect{ delete :destroy, id: answer, question_id: question, format: :js }.to_not change(Answer, :count)
       end
-      it 'redirect to question path' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question_path(answer.question)
+      it 'render template' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy, :update]
-  before_action :set_question, only: [:create]
+  before_action :set_question, only: [:create, :destroy]
   before_action :set_answer, only: [:destroy, :update]
 
 
@@ -16,17 +16,16 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      notice = "Your answer was success deleted"
+      flash[:notice] = "Your answer was success deleted"
     else
-      notice = "You cannot delete this answer"
+      flash[:notice] = "You cannot delete this answer"
     end
-    redirect_to question_path(params[:question_id]), notice: notice
   end
 
   def update
     @question = @answer.question
-    if current_user.author_of?(@answer) 
-      @answer.update(answer_params)
+    if current_user.author_of?(@answer) && @answer.update(answer_params)
+      flash[:notice] = 'Answer was success updated'
     end
   end
 
