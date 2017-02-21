@@ -1,0 +1,7 @@
+=form_for @question, remote: true, html: {class: 'question_form'} do |f|
+  =f.label :title, "Title"
+  =f.text_field :title, placeholder: "Title"
+
+  =f.label :body, "Body"
+  =f.text_area :body, placeholder: "Body"
+  =f.submit 

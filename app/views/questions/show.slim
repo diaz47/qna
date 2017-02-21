@@ -1,8 +1,9 @@
-h1= @question.title
-p= @question.body
-
--if user_signed_in? && current_user.author_of?(@question)
-  p= link_to 'Delete question', question_path(@question), method: :delete
+.question
+  h1.title_question= @question.title
+  p.body_question= @question.body
+  .question_tools
+    =render 'question_tools'
+  .question_errors   
 hr
 .errors_list
 =render 'answers/form'

@@ -103,4 +103,51 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    context 'Author update' do
+      sign_in_user
+      let(:question) { create(:question, user: @user) }
+      context 'with valid data' do
+        it 'assign the requiest question' do
+          patch :update, id: question, question: attributes_for(:question), format: :js
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'change attributes in question' do
+          patch :update, id: question, question: {title: "My new title", body: "My new body"}, format: :js
+          question.reload
+
+          expect(question.title).to eq 'My new title'
+          expect(question.body).to eq 'My new body'
+        end
+
+        it 'render template' do
+          patch :update, id: question, question: attributes_for(:question), format: :js
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid data' do
+        it 'not change attributes' do
+          patch :update, id: question, question: {title: "", body: "My new body"}, format: :js
+          question.reload
+
+          expect(question.title).to_not eq 'My new title'
+          expect(question.body).to_not eq 'My new body'
+        end
+      end
+    end
+
+    context 'No Author try update' do
+      let(:question) { create(:question) }
+      it 'not change attributes' do
+        patch :update, id: question, question: {title: "Tratata", body: "My new body"}, format: :js
+        question.reload
+
+        expect(question.title).to_not eq 'Tratata'
+        expect(question.body).to_not eq 'My new body'
+      end
+    end
+  end
 end
