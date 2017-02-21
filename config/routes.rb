@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   
   resources :questions do
     resources :answers
+    resources :best_answer, only: :update
   end
 end

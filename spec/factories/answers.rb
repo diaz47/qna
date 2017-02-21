@@ -6,6 +6,7 @@ FactoryGirl.define do
     body 
     user
     question
+    best_answer false
   end
 
   factory :invalid_answer, class: "Answer" do
