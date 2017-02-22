@@ -3,7 +3,7 @@
         $('.errors_list').html('<%= j message %>');
     <% end %>
 <% else %>
-  $('.answer_list').html('<%= j render @question.answers %>');
+  $("#answer_id_<%= @answer.id %>").html('<%= j render @answer %>');
   $('.edit-answer-link').click(function(e) {
         e.preventDefault();
         $(this).hide();

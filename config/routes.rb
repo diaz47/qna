@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   
   resources :questions do
     resources :answers
-    resources :best_answer, only: :update
   end
+
+  match '/answers/select_best_answer/(:id)', to:'answers#select_best_answer', via: 'patch', as:'select_best_answer'
 end

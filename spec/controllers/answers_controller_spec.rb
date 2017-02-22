@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:question) { create(:question) }
+  let(:question) { create(:question) }
 
   describe 'POST #create' do
     sign_in_user
@@ -102,4 +102,51 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #select_best_answer' do
+    let(:prev_answer){ create(:answer, best_answer: true, question: question) }
+    let(:answer){ create(:answer, question: question) }
+    
+    
+    context 'Author try select best answer' do
+      sign_in_user
+      let(:question){ create(:question, user: @user) }
+
+      before { patch :select_best_answer, id: answer }
+
+      it 'assign to requiest question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'assign to requiest answer' do
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'change attribute for answer and prev-answer' do
+        answer.reload
+        prev_answer.reload
+
+        expect(answer.best_answer).to eq true
+        expect(prev_answer.best_answer).to eq false
+      end
+
+      it 'redirect to question' do
+        expect(response).to redirect_to question
+      end
+    end
+
+    context 'No Author try select best answer' do
+      sign_in_user
+      before { patch :select_best_answer, id: answer }
+
+      it 'not change attribute for answer and prev-answer' do
+        answer.reload
+        prev_answer.reload
+
+        expect(answer.best_answer).to eq false
+        expect(prev_answer.best_answer).to eq true
+      end
+    end
+  end
+
 end
