@@ -9,6 +9,6 @@ li id="answer_id_#{answer.id}"
       = f.label :body, "New answer"
       = f.text_area :body
       = f.submit 'Save'
-  -if user_signed_in? && current_user.author_of?(@question) && answer.best_answer === false
-    p= link_to 'Mark as the best', select_best_answer_path(answer), method: :patch
+  -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
+    p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
   

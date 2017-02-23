@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   root to: 'questions#index'
   
   resources :questions do
-    resources :answers
+    resources :answers do
+      patch :select_best_answer, on: :member
+    end
   end
-
-  match '/answers/select_best_answer/(:id)', to:'answers#select_best_answer', via: 'patch', as:'select_best_answer'
 end

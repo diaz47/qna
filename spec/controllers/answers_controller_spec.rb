@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-
   describe 'POST #create' do
     sign_in_user
 
@@ -98,7 +97,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'not cahnge answer' do
         patch :update, id: answer, question_id: question, answer: { body: 'new body'}, format: :js
         answer.reload
-        expect(answer.body).to eq answer.body
+        expect(answer.body).to_not eq "new body"
       end
     end
   end
@@ -112,7 +111,7 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
       let(:question){ create(:question, user: @user) }
 
-      before { patch :select_best_answer, id: answer }
+      before { patch :select_best_answer, id: answer, question_id: question }
 
       it 'assign to requiest question' do
         expect(assigns(:question)).to eq question
@@ -123,11 +122,16 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'change attribute for answer and prev-answer' do
+        answer
+        prev_answer
+
+        patch :select_best_answer, id: answer, question_id: question
         answer.reload
         prev_answer.reload
 
-        expect(answer.best_answer).to eq true
-        expect(prev_answer.best_answer).to eq false
+        expect(answer).to be_best_answer
+        expect(prev_answer).to_not be_best_answer
+
       end
 
       it 'redirect to question' do
@@ -137,14 +141,17 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'No Author try select best answer' do
       sign_in_user
-      before { patch :select_best_answer, id: answer }
-
+      let!(:prev_answer) { create(:answer, best_answer: true, question: question) }
+      
       it 'not change attribute for answer and prev-answer' do
+        prev_answer
+        answer
+        patch :select_best_answer, id: answer, question_id: question
         answer.reload
         prev_answer.reload
 
-        expect(answer.best_answer).to eq false
-        expect(prev_answer.best_answer).to eq true
+        expect(answer).to_not be_best_answer
+        expect(prev_answer).to be_best_answer
       end
     end
   end

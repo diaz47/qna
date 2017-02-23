@@ -8,18 +8,20 @@ RSpec.describe Answer, type: :model do
   describe 'select best answer' do
     let(:question) { create(:question)}
     let(:answer) { create(:answer, question: question)}
-    let(:prev_answer) { create(:answer, question: question, best_answer: true)}
+    
 
     it 'answer should be best' do
       answer.set_best_answer
-      expect(answer.best_answer).to eq true
+
+      expect(answer).to be_best_answer
     end
 
     it 'prev answer should be not best' do
+      prev_answer =  create(:answer, question: question, best_answer: true)
       answer.set_best_answer
       prev_answer.reload
 
-      expect(prev_answer.best_answer).to eq false
+      expect(prev_answer).to_not be_best_answer
     end
   end
 end

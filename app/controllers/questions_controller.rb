@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.build
-    @answers = @question.answers.order(best_answer: :desc)
+    @answers = @question.answers.best_answer_show_first
   end
 
   def new
