@@ -133,7 +133,6 @@ RSpec.describe QuestionsController, type: :controller do
           patch :update, id: question, question: {title: "", body: "My new body"}, format: :js
           question.reload
 
-          expect(question.title).to_not eq 'My new title'
           expect(question.body).to_not eq 'My new body'
         end
       end
