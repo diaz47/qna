@@ -46,6 +46,9 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  Capybara.javascript_driver = :webkit
+  Capybara.default_wait_time = 5
+  
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
@@ -65,6 +68,7 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
@@ -85,4 +89,3 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
-Capybara.javascript_driver = :webkit

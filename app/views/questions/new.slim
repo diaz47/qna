@@ -4,7 +4,4 @@
     p= message
 
 h1 New question
-=form_for @question do |f|
-  =f.text_field :title, placeholder: "Title"
-  =f.text_area :body, placeholder: "Body"
-  =f.submit 'Ask'
+=render 'form_question'

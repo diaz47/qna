@@ -10,7 +10,7 @@ feature 'Add new Questions' do
     click_on 'Ask question'
     fill_in 'Title', with: 'My title'
     fill_in 'Body', with: 'My question'
-    click_on 'Ask'
+    click_on 'Create Question'
 
     expect(page).to have_content 'Your question successfully created'
     expect(page).to have_content 'My title'
@@ -23,7 +23,7 @@ feature 'Add new Questions' do
     click_on 'Ask question'
     fill_in 'Title', with: ''
     fill_in 'Body', with: 'My question'
-    click_on 'Ask'
+    click_on 'Create Question'
 
     expect(page).to have_content "Title can't be blank"
   end

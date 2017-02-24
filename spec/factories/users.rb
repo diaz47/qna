@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :email do |n|
-    "usermail#{n}@mail.ru"
+    "userываывфываыв2#{n}@test2.ru"
   end
 
   factory :user do
@@ -10,7 +10,7 @@ FactoryGirl.define do
   end
 
   factory :user_2, class: "User" do
-    email 'tsdf@mail.ru'
+    email 'tsdfы123w@mail2.ru'
     password '12345678'
     password_confirmation '12345678'
   end

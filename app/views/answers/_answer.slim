@@ -1,4 +1,14 @@
-li= "#{answer.body}(#{answer.user_id})"
--if user_signed_in? && current_user.author_of?(answer)
-  p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete
-hr
+li id="answer_id_#{answer.id}"
+  ="#{answer.body}#{ answer.best_answer ? '(the best answer)' : ''}"
+
+  -if user_signed_in? && current_user.author_of?(answer)
+    p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete, remote: true
+    p= link_to 'Edit answer', '', class: "edit-answer-link", data: { answer_id: answer.id }
+    p
+     = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}", class: 'answer_edit_form'} do |f|
+      = f.label :body, "New answer"
+      = f.text_area :body
+      = f.submit 'Save'
+  -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
+    p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
+  

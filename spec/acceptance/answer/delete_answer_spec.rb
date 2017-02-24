@@ -7,14 +7,12 @@ feature 'Delete answer ' do
   given(:question){ create(:question)}
   given!(:answer){ create(:answer, user: user, question: question)}
 
-  scenario 'Author of answer try delete answer' do
+  scenario 'Author of answer try delete answer', js: true do
     sign_in(user)
     visit question_path(question)
-
     answer
     click_on 'Delete answer'
 
-    expect(page).to have_content 'Your answer was success deleted'
     expect(page).to_not have_content answer.body
     expect(current_path).to eq question_path(question)
   end

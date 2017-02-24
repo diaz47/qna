@@ -1,13 +1,13 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_action :set_question, only: [:show, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
+  before_action :set_question, only: [:show, :destroy, :update]
   def index
     @questions = Question.all
   end
 
   def show
     @answer = @question.answers.build
-    @answers = @question.answers.all
+    @answers = @question.answers.best_answer_show_first
   end
 
   def new
@@ -31,6 +31,12 @@ class QuestionsController < ApplicationController
       flash[:notice] = "You cannot delete this question"
     end
     redirect_to questions_path
+  end
+
+  def update
+    if current_user.author_of?(@question)
+      @question.update(questions_params)
+    end
   end
 
   private
