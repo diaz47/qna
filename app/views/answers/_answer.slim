@@ -7,8 +7,8 @@ li id="answer_id_#{answer.id}"
     p
      = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}", class: 'answer_edit_form'} do |f|
       = f.label :body, "New answer"
-      = f.text_area :body
-      = f.submit 'Save'
+      = f.text_area :body, class: 'form-control'
+      = f.submit 'Save', class: 'btn btn-success'
   -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
     p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
   

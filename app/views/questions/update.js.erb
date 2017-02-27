@@ -5,6 +5,7 @@
 <% else %>
   $('.title_question').html("<%= @question.title %>");
   $('.body_question').html("<%= @question.body %>");
+  $('.show_notice_alert').html('<%= render 'shared/notice_alert'%>');
   $('.edit_question_link').click(function(e) {
       e.preventDefault();
       $(this).hide();

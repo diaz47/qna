@@ -23,7 +23,7 @@ feature 'Select best answer' do
     answer
     best_answer
 
-    within page.all('ul li').first do
+    within page.all('.answer_list ul li').first do
       expect(page).to have_content "#{best_answer.body}(the best answer)"
     end
   end

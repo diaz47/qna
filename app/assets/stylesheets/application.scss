@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap";
+ @import url('https://fonts.googleapis.com/css?family=Open+Sans:300&subset=cyrillic');
+
+body { font-family: 'Open Sans', sans-serif; } 
+h1, h2{ margin-bottom: 20px; }
+
+.top_menu_header{ margin: 20px 0 }
+.form-control { margin-bottom: 20px;}
+.search_field .form-control { margin-bottom: 0; }
+

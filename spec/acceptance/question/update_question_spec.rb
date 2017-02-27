@@ -15,7 +15,7 @@ feature 'Update question' do
         click_on 'Edit question'
         fill_in 'Title', with: "my new title"
         fill_in 'Body', with: "my new body"
-        click_on 'Update Question'
+        click_on 'Save Question'
 
         expect(page).to_not have_content question.body
         expect(page).to_not have_content question.title
@@ -30,7 +30,7 @@ feature 'Update question' do
         click_on 'Edit question'
         fill_in 'Title', with: ""
         fill_in 'Body', with: "my new body"
-        click_on 'Update Question'
+        click_on 'Save Question'
 
         expect(page).to have_content question.body
         expect(page).to have_content question.title
