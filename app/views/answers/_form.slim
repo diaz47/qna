@@ -1,4 +1,4 @@
 h2 Create answer
 =form_for [@question, @answer], remote: true do |f|
-  =f.text_area :body, placeholder: "Write your answer"
-  =f.submit 'create answer'
+  =f.text_area :body, placeholder: "Write your answer", class: 'form-control'
+  =f.submit 'create answer', class: 'btn btn-success'
