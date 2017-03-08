@@ -25,10 +25,9 @@ feature 'Add answer for question' do
 
   scenario 'no authenticated user try to create answer for question' do
     visit question_path(question)
-    fill_in 'Write your answer', with: 'my answer'
-    click_on 'create answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-    expect(current_path).to eq new_user_session_path
+
+    expect(page).to_not have_content 'Write your answer'
+    expect(page).to_not have_content 'create answer'
   end
 end

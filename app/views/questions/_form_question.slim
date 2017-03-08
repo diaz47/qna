@@ -1,7 +1,14 @@
 =form_for @question, remote: true, html: {class: 'question_form'} do |f|
-  =f.label :title, "Title"
-  =f.text_field :title, placeholder: "Title", class: "form-control"
+  p
+    =f.label :title, "Title"
+    =f.text_field :title, placeholder: "Title", class: "form-control"
+  p
+    =f.label :body, "Body"
+    =f.text_area :body, placeholder: "Body", class: "form-control"
+  p Attachments
+  p
+    =f.fields_for :attachments do |a|
+      =a.label :file
+      =a.file_field :file
 
-  =f.label :body, "Body"
-  =f.text_area :body, placeholder: "Body", class: "form-control"
   =f.submit btn_name, class: 'btn btn-primary'

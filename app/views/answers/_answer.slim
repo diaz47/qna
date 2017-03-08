@@ -1,5 +1,7 @@
 li id="answer_id_#{answer.id}"
   ="#{answer.body}#{ answer.best_answer ? '(the best answer)' : ''}"
+  -answer.attachments.each do |a|
+    p= link_to a.file.filename, a.file.url
 
   -if user_signed_in? && current_user.author_of?(answer)
     p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete, remote: true
