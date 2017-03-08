@@ -8,7 +8,8 @@
   p Attachments
   p
     =f.fields_for :attachments do |a|
-      =a.label :file
-      =a.file_field :file
+      =render 'shared/attachments_filed', f: a
+      p
+        = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'
 
   =f.submit btn_name, class: 'btn btn-primary'
