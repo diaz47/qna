@@ -1,5 +1,11 @@
 li id="answer_id_#{answer.id}"
   ="#{answer.body}#{ answer.best_answer ? '(the best answer)' : ''}"
+  ol.attach_list
+    -answer.attachments.each do |a|
+      li id="attach_id_#{a.id}"
+        = link_to a.file.filename, a.file.url
+        -if user_signed_in? && current_user.author_of?(answer)
+          p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
 
   -if user_signed_in? && current_user.author_of?(answer)
     p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete, remote: true
@@ -7,8 +13,12 @@ li id="answer_id_#{answer.id}"
     p
      = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}", class: 'answer_edit_form'} do |f|
       = f.label :body, "New answer"
-      = f.text_area :body, class: 'form-control'
-      = f.submit 'Save', class: 'btn btn-success'
+      =f.text_area :body, placeholder: "Write your answer", class: 'form-control'
+      =f.fields_for :attachments do |a|
+        =render 'shared/attachments_filed', f: a
+      p
+        = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'
+      =f.submit 'Save', class: 'btn btn-success'
   -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
     p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
   

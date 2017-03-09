@@ -1,12 +1,22 @@
 .question
   h1.title_question= @question.title
   p.body_question= @question.body
+  p Attachments
+  ol.attach_list
+    -@question.attachments.each do |a|
+      li id="attach_id_#{a.id}"
+        = link_to a.file.filename, a.file.url
+        -if user_signed_in? && current_user.author_of?(@question)
+          p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
   .question_tools
     =render 'question_tools'
-  .question_errors   
-hr
-.errors_list
-=render 'answers/form'
+  .question_errors
+-if user_signed_in?
+  hr
+  .errors_list
+  =render 'answers/form'
+-else
+  p= link_to "sign in for create question", new_user_session_path
 hr
 h3 Answers
 .answer_list
