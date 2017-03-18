@@ -1,4 +1,11 @@
 .question
+  -if user_signed_in?
+    .rating_question
+      - if !current_user.author_of?(@question)
+        = link_to raw("<i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Vote for"), vote_question_path(@question.id, current_user.id, value: 1),  method: :post
+        = link_to raw("<i class='fa fa-thumbs-o-down' aria-hidden='true'></i> Vote against"), vote_question_path(@question.id, current_user.id, value: -1),  method: :post
+        = link_to 'back vote', delete_vote_question_path(@question.id, current_user.id), method: :delete
+  = "Rating question: #{@question.votes.sum(:value)}"
   h1.title_question= @question.title
   p.body_question= @question.body
   p Attachments

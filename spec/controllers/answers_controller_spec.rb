@@ -156,4 +156,71 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #vote' do
+    context 'Author of answer try vote for answer' do
+      sign_in_user
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question, user: @user) }
+
+      it 'rating no change' do
+        expect { post :vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
+      end
+
+      it 'redirect to question' do
+        post :vote, user_id: @user.id, answer_id: answer.id, value: 1
+        expect(response).to redirect_to question
+      end
+    end
+    
+
+    context 'No Author of answer try vote for answer' do 
+      sign_in_user
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question) }
+
+      it 'rating change' do
+        expect { post :vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to change(answer.votes, :count)
+      end
+
+      it 'redirect to question' do
+        post :vote, user_id: @user.id, answer_id: answer.id, value: 1
+        expect(response).to redirect_to question
+      end
+    end
+  end
+
+  context 'POST #delete_vote' do 
+    context 'No author of answer try reset vote' do
+      sign_in_user
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question) }
+      let!(:vote_user) { create(:vote, user: @user, votable: answer) }
+
+      it 'rating reset' do
+        vote_user
+        expect { post :delete_vote, user_id: @user.id, answer_id: answer.id }.to change(answer.votes, :count)
+      end
+
+      it 'redirect to question' do
+        post :delete_vote, user_id: @user.id, answer_id: answer.id
+        expect(response).to redirect_to question
+      end
+    end
+    
+    context 'Author of answer try reset vote' do 
+      sign_in_user
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question, user: @user) }
+
+      it 'rating no change' do
+        expect { post :delete_vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
+      end
+
+      it 'redirect to question' do
+        post :delete_vote, user_id: @user.id, answer_id: answer.id, value: 1
+        expect(response).to redirect_to question
+      end
+    end
+  end
+
 end

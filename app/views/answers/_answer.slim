@@ -21,4 +21,12 @@ li id="answer_id_#{answer.id}"
       =f.submit 'Save', class: 'btn btn-success'
   -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
     p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
+
+  -if user_signed_in?
+    .rating_answer
+      - if !current_user.author_of?(answer)
+        = link_to raw("<i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Vote for"), vote_answer_path(answer.id, current_user.id, value: 1),  method: :post
+        = link_to raw("<i class='fa fa-thumbs-o-down' aria-hidden='true'></i> Vote against"), vote_answer_path(answer.id, current_user.id, value: -1),  method: :post
+        = link_to 'back vote', delete_vote_answer_path(answer.id, current_user.id), method: :delete
+  = "Rating answer: #{answer.votes.sum(:value)}"
   
