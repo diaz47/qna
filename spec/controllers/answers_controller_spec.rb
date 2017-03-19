@@ -163,11 +163,11 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'rating no change' do
-        expect { post :vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
+        expect { post :vote, user_id: @user.id, question_id:question.id, answer_id: answer.id, value: 'yes' }.to_not change(answer.votes, :count)
       end
 
       it 'redirect to question' do
-        post :vote, user_id: @user.id, answer_id: answer.id, value: 1
+        post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
         expect(response).to redirect_to question
       end
     end
@@ -179,17 +179,17 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question) }
 
       it 'rating change' do
-        expect { post :vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to change(answer.votes, :count)
+        expect { post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1 }.to change(answer.votes, :count)
       end
 
       it 'redirect to question' do
-        post :vote, user_id: @user.id, answer_id: answer.id, value: 1
+        post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
         expect(response).to redirect_to question
       end
     end
   end
 
-  context 'POST #delete_vote' do 
+  context 'DELETE #delete_vote' do 
     context 'No author of answer try reset vote' do
       sign_in_user
       let(:question) { create(:question) }
@@ -198,11 +198,11 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'rating reset' do
         vote_user
-        expect { post :delete_vote, user_id: @user.id, answer_id: answer.id }.to change(answer.votes, :count)
+        expect { post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id }.to change(answer.votes, :count)
       end
 
       it 'redirect to question' do
-        post :delete_vote, user_id: @user.id, answer_id: answer.id
+        post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id
         expect(response).to redirect_to question
       end
     end
@@ -213,11 +213,11 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'rating no change' do
-        expect { post :delete_vote, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
+        expect { post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
       end
 
       it 'redirect to question' do
-        post :delete_vote, user_id: @user.id, answer_id: answer.id, value: 1
+        post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
         expect(response).to redirect_to question
       end
     end
