@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy, :update]
-  before_action :set_question, only: [:create, :destroy]
+  before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy, :update, :select_best_answer]
 
   include VoteFor
@@ -55,9 +55,4 @@ class AnswersController < ApplicationController
   def set_answer
     @answer = Answer.find(params[:id])
   end
-
-  def set_vote_data
-    @answer = @question.answers.find(params[:answer_id])
-  end
-
 end

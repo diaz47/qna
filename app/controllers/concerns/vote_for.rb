@@ -10,6 +10,9 @@ module VoteFor
     @user = @element.votes.find_by(user_id: current_user.id)
     if @user.nil? && !current_user.author_of?(@element)
       @vote.save!
+      respond_to do |format|
+        format.json { render json: { rating: @element.votes.sum(:value), id: @element.id } }
+      end
       flash[:notice] = "You successfully voted"
     else
       flash[:notice] = "You cannot voted"
@@ -19,7 +22,10 @@ module VoteFor
   def delete_vote
     @vote = @element.votes.find_by(user_id: current_user.id)
     if !@vote.nil?
-      @vote.destroy 
+      @vote.destroy
+      respond_to do |format|
+        format.json { render json:{ rating: @element.votes.sum(:value), id: @element.id } }
+      end 
       flash[:notice] = "You successfully reset vote"
     end
   end

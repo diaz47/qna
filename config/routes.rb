@@ -9,10 +9,8 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :questions do
-    concerns :votable
-    resources :answers do
-      concerns :votable, votable_param: 'answer_id'
+  resources :questions, concerns: :votable do
+    resources :answers, shallow: true, concerns: :votable do
       patch :select_best_answer, on: :member
     end
   end
