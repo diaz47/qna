@@ -163,12 +163,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'rating no change' do
-        expect { post :vote, user_id: @user.id, question_id:question.id, answer_id: answer.id, value: 'yes' }.to_not change(answer.votes, :count)
+        expect { post :vote, user_id: @user.id, question_id:question.id, id: answer.id, value: 'yes', format: :js }.to_not change(answer.votes, :count)
       end
 
-      it 'redirect to question' do
-        post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
-        expect(response).to redirect_to question
+      it 'render question' do
+        post :vote, question_id:question.id, user_id: @user.id, id: answer.id, value: 'yes', format: :js
+        expect(response).to render_template :vote
       end
     end
     
@@ -179,12 +179,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question) }
 
       it 'rating change' do
-        expect { post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1 }.to change(answer.votes, :count)
+        expect { post :vote, question_id:question.id, user_id: @user.id, id: answer.id, value: 1, format: :js }.to change(answer.votes, :count)
       end
 
-      it 'redirect to question' do
-        post :vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
-        expect(response).to redirect_to question
+      it 'render question' do
+        post :vote, question_id:question.id, user_id: @user.id, id: answer.id, value: 1, format: :js
+        expect(response).to render_template :vote
       end
     end
   end
@@ -198,12 +198,12 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'rating reset' do
         vote_user
-        expect { post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id }.to change(answer.votes, :count)
+        expect { post :delete_vote, question_id:question.id, user_id: @user.id, id: answer.id, format: :js }.to change(answer.votes, :count)
       end
 
-      it 'redirect to question' do
-        post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id
-        expect(response).to redirect_to question
+      it 'render question' do
+        post :delete_vote, question_id:question.id, user_id: @user.id, id: answer.id, format: :js
+        expect(response).to render_template :delete_vote
       end
     end
     
@@ -213,12 +213,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'rating no change' do
-        expect { post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1 }.to_not change(answer.votes, :count)
+        expect { post :delete_vote, question_id:question.id, user_id: @user.id, id: answer.id, value: "yes", format: :js }.to_not change(answer.votes, :count)
       end
 
-      it 'redirect to question' do
-        post :delete_vote, question_id:question.id, user_id: @user.id, answer_id: answer.id, value: 1
-        expect(response).to redirect_to question
+      it 'render question' do
+        post :delete_vote, question_id:question.id, user_id: @user.id, id: answer.id, value: "yes", format: :js
+        expect(response).to render_template :delete_vote
       end
     end
   end

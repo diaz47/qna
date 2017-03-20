@@ -24,6 +24,6 @@ li id="answer_id_#{answer.id}"
 
   -if user_signed_in?
     .rating_answer
-      =render partial: 'shared/vote', locals: { element: answer, element_param: "answer_id", path_arg: answer.question, klass: Answer}
-  = "Rating answer: #{answer.votes.sum(:value)}"
+      =render partial: 'shared/vote', locals: { element: answer, path_arg: answer.question, path_arg_2: answer}
+  p id="answer_sum_#{answer.id}" Rating answer: #{answer.votes.sum(:value)}
   

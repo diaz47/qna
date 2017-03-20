@@ -24,7 +24,7 @@ feature 'Vote for question' do
     end
 
 
-    scenario 'No author try to vote' do
+    scenario 'No author try to vote', js: true do
       sign_in(user)
       visit question_path(question)
 
@@ -32,11 +32,10 @@ feature 'Vote for question' do
         click_on 'Vote for'
       end
 
-      expect(page).to have_content 'You successfully voted'
       expect(page).to have_content 'Rating question: 1'
     end
 
-    scenario 'No author try to reset data' do
+    scenario 'No author try to reset data', js: true do
       sign_in(user)
       visit question_path(question)
 
@@ -45,7 +44,6 @@ feature 'Vote for question' do
         click_on 'back vote'
       end
 
-      expect(page).to have_content 'You successfully reset vote'
       expect(page).to have_content 'Rating question: 0'
     end
   end

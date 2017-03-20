@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   concern :votable do 
-    collection do
+    member do
       post :vote
       delete :delete_vote
     end
