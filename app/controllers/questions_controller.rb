@@ -1,6 +1,9 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :set_question, only: [:show, :destroy, :update]
+
+  include VoteFor
+
   def index
     @questions = Question.all
   end
@@ -49,5 +52,6 @@ class QuestionsController < ApplicationController
   def questions_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :_destroy, :id])
   end
+
   
 end

@@ -1,0 +1,8 @@
+- if !current_user.author_of?(element)
+    = link_to polymorphic_url([:vote, path_arg], value: 'yes'), method: :post, class: 'vote_for', remote: true do
+      i.fa.fa-thumbs-o-up aria-hidden="true"
+      span Vote for
+    = link_to polymorphic_url([:vote, path_arg], value: 'no'), method: :post, class: 'vote_against', remote: true do
+      i.fa.fa-thumbs-o-up aria-hidden="true"
+      span Vote against
+    = link_to 'back vote', polymorphic_url([:delete_vote, path_arg]), method: :delete, class: 'back_vote', remote: true

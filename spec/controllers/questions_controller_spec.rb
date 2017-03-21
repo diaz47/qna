@@ -157,4 +157,47 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote' do
+    context 'Author of question try vote for question' do
+      sign_in_user
+      let(:question) { create(:question, user: @user) }
+
+      it 'rating no change' do
+        expect { post :vote, user_id: @user.id, id: question.id, value: 1, format: :json }.to_not change(question.votes, :count)
+      end
+    end
+    
+
+    context 'No Author of question try vote for question' do 
+      sign_in_user
+      let(:question) { create(:question) }
+
+      it 'rating change' do
+        expect { post :vote, user_id: @user.id, id: question.id, value: 1, format: :json }.to change(question.votes, :count)
+      end
+    end
+  end
+
+  context 'POST #delete_vote' do 
+    context 'No author of question try reset vote' do
+      sign_in_user
+      let(:question) { create(:question) }
+      let!(:vote_user) { create(:vote, user: @user, votable: question) }
+
+      it 'rating reset' do
+        vote_user
+        expect { post :delete_vote, user_id: @user.id, id: question.id, format: :json }.to change(question.votes, :count)
+      end
+    end
+    
+    context 'Author of question try reset vote' do 
+      sign_in_user
+      let(:question) { create(:question, user: @user) }
+
+      it 'rating no change' do
+        expect { post :delete_vote, user_id: @user.id, id: question.id, value: 1 , format: :json}.to_not change(question.votes, :count)
+      end
+    end
+  end
 end

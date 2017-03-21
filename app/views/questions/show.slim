@@ -1,4 +1,8 @@
 .question
+  -if user_signed_in?
+    .rating_question
+      =render partial: 'shared/vote', locals: { element: @question, path_arg: @question}
+  p.question_sum Rating question: #{@question.votes.sum(:value)}
   h1.title_question= @question.title
   p.body_question= @question.body
   p Attachments

@@ -8,10 +8,10 @@ li id="answer_id_#{answer.id}"
           p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
 
   -if user_signed_in? && current_user.author_of?(answer)
-    p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete, remote: true
+    p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
     p= link_to 'Edit answer', '', class: "edit-answer-link", data: { answer_id: answer.id }
     p
-     = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}", class: 'answer_edit_form'} do |f|
+     = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}", class: 'answer_edit_form'} do |f|
       = f.label :body, "New answer"
       =f.text_area :body, placeholder: "Write your answer", class: 'form-control'
       =f.fields_for :attachments do |a|
@@ -20,5 +20,10 @@ li id="answer_id_#{answer.id}"
         = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'
       =f.submit 'Save', class: 'btn btn-success'
   -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
-    p= link_to 'Mark as the best', select_best_answer_question_answer_path(@question, answer), method: :patch
+    p= link_to 'Mark as the best', select_best_answer_answer_path(answer), method: :patch
+
+  -if user_signed_in?
+    .rating_answer
+      =render partial: 'shared/vote', locals: { element: answer, path_arg: answer}
+  p id="answer_sum_#{answer.id}" Rating answer: #{answer.votes.sum(:value)}
   

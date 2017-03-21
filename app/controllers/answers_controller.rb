@@ -1,8 +1,9 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy, :update]
-  before_action :set_question, only: [:create, :destroy]
+  before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy, :update, :select_best_answer]
 
+  include VoteFor
 
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
@@ -54,5 +55,4 @@ class AnswersController < ApplicationController
   def set_answer
     @answer = Answer.find(params[:id])
   end
-
 end
