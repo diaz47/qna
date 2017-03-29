@@ -1,13 +1,5 @@
 = render 'shared/jumbotron'
 
-table.table
-  thead.thead-default
-    tr
-      th Question
-      th Author
-  tbody
-  -@questions.each do |question|
-    tr
-      td =link_to question.title, question_path(question)
-      td =question.user_id
+.questions_list
+  =render @questions
 

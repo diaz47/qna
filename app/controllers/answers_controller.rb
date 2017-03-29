@@ -2,10 +2,12 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy, :update]
   before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy, :update, :select_best_answer]
+  after_action :publish_answer, only: [:create]
 
   include VoteFor
 
   def create
+    @comment = Comment.new
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
       flash[notice] = "Your answer successfully created"
@@ -54,5 +56,16 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+    attachments = @answer.attachments.map(&:attributes)
+    ActionCable.server.broadcast("answer_question_#{@answer.question_id}", 
+      answer: @answer, 
+      question: @question, 
+      attachments: attachments,
+      rating: @answer.votes.sum(:value)
+    )
   end
 end

@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :set_question, only: [:show, :destroy, :update]
+  after_action :publish_question, only: [:create]
 
   include VoteFor
 
@@ -12,6 +13,8 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.build
     @answer.attachments.build
     @answers = @question.answers.best_answer_show_first
+
+    @comment = Comment.new
   end
 
   def new
@@ -53,5 +56,11 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :_destroy, :id])
   end
 
-  
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast 'questions', ApplicationController.render( 
+      partial: 'questions/question', 
+      locals: { question: @question}
+    )
+  end
 end
