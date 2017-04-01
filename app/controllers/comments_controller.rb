@@ -1,16 +1,12 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-  before_action :set_commentable, only: [:create]
+  before_action :authenticate_user!, :set_commentable, only: [:create]
   after_action :publish_comment, only: [:create]
 
+  respond_to :json, only:[:create]
+
   def create
-    Rails.logger.info "Get commentable #{@commentable}"
-    @comment = @commentable.comments.new(comment_params.merge(user: current_user))
-    if @comment.save
-      render json: { body: @comment.body, commentable_id: @commentable.id, commentable_type: @commentable.class.to_s.downcase } 
-    else
-      render json: @comment.errors.full_messages, status: 422 
-    end
+    @comment = @commentable.comments.create(comment_params.merge(user: current_user))
+    respond_with(@comment, location: @commentable)
   end
 
   private

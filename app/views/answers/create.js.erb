@@ -4,6 +4,5 @@
     <% end %>
 <% else %>
   $('.answer_list').append('<%= j render @answer %>');
-  $('.show_notice_alert').html("<%= render 'shared/notice_alert'%>");
   $("#answer_body").val('');
 <% end %>

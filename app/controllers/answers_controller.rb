@@ -2,47 +2,28 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy, :update]
   before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy, :update, :select_best_answer]
+  before_action :new_comment, only: [:create, :update]
+  before_action :get_question, only: [:update, :select_best_answer]
   after_action :publish_answer, only: [:create]
-
+  respond_to :js
   include VoteFor
 
   def create
-    @comment = Comment.new
-    @answer = @question.answers.new(answer_params.merge(user: current_user))
-    if @answer.save
-      flash[notice] = "Your answer successfully created"
-    else
-      flash[notice] = "Error"
-    end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:notice] = "Your answer was success deleted"
-    else
-      flash[:notice] = "You cannot delete this answer"
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def update
-    @question = @answer.question
-    if current_user.author_of?(@answer) && @answer.update(answer_params)
-      flash[:notice] = 'Answer was success updated'
-    else
-      flash[:notice] = 'ERROR'
-    end
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    respond_with @answer
   end
 
   def select_best_answer
-    @question = @answer.question
-    
-    if current_user.author_of?(@question)
-      @answer.set_best_answer
-      redirect_to @question, notice: "Best asnwer was selected"
-    else
-      redirect_to @question, notice: "ERROR"
-    end
+    @answer.set_best_answer if current_user.author_of?(@question)
+    respond_with @question
   end
 
   private
@@ -56,6 +37,13 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def get_question
+    @question = @answer.question
+  end
+  def new_comment
+    @comment = Comment.new
   end
 
   def publish_answer

@@ -7,7 +7,7 @@
     =f.text_area :body, placeholder: "Body", class: "form-control"
   p Attachments
   p
-    =f.fields_for :attachments do |a|
+    =f.fields_for :attachments, @question.attachments.build do |a|
       =render 'shared/attachments_filed', f: a
   p
     = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'

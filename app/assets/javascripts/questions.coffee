@@ -20,7 +20,8 @@ ready = ->
       $('.edit_question_link').show()
   $('.comment_form').bind 'ajax:success', (e, data, status, xhr) ->
     res = $.parseJSON(xhr.responseText);
-    field = res.commentable_type+'_'+res.commentable_id+'_comment';
+    com_type = res.commentable_type;
+    field = com_type.toLowerCase()+'_'+res.commentable_id+'_comment';
     $('#'+field).append("<li>"+res.body+"</li>");
     $('#comment_body').val('');
 
