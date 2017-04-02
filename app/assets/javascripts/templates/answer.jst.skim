@@ -1,0 +1,15 @@
+li id="answer_id_#{@answer.id}"
+  ="#{@answer.body}"
+  ol.attach_list
+    -for a in @attachments
+      li id="attach_id_#{a.id}"
+        <a href="#{a.url}">#{a.file}</a>
+  -if gon.user_id == @question.user_id && !@answer.best_answer
+    p
+      <a rel="nofollow" data-method="patch" href="/answers/#{@answer.id}/select_best_answer">Mark as the best</a>
+  -if gon.user_id && gon.user_id != @answer.user_id
+    .rating_answer
+      <a class="vote_for" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/vote?value=yes"><i aria-hidden="true" class="fa fa-thumbs-o-up"></i><span>Vote for</span></a>
+      <a class="vote_against" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/vote?value=no"><i aria-hidden="true" class="fa fa-thumbs-o-up"></i><span>Vote against</span></a>
+      <a class="back_vote" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@answer.id}/delete_vote">back vote</a>
+  p id="answer_sum_#{@answer.id}" Rating answer: #{@rating}

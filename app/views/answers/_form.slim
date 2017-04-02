@@ -1,7 +1,7 @@
 h2 Create answer
 =form_for [@question, @answer], remote: true do |f|
   =f.text_area :body, placeholder: "Write your answer", class: 'form-control'
-  =f.fields_for :attachments do |a|
+  =f.fields_for :attachments, @answer.attachments.build do |a|
     =render 'shared/attachments_filed', f: a
     p
       = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'

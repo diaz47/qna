@@ -1,0 +1,6 @@
+= form_for @comment, remote: true, data: { type: :json }, html: { class: "comment_form", id: "comment_form_#{commentable.class.to_s.downcase}_#{commentable.id}"} do |f|
+  h3 Write comment
+  =f.text_field :body, class: "form-control", placeholder: 'Write your comments'
+  = f.hidden_field :commentable_type, value: commentable.class
+  = f.hidden_field :commentable_id, value: commentable.id
+  =f.submit 'Create', class: 'btn btn-primary'

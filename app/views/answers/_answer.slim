@@ -26,4 +26,13 @@ li id="answer_id_#{answer.id}"
     .rating_answer
       =render partial: 'shared/vote', locals: { element: answer, path_arg: answer}
   p id="answer_sum_#{answer.id}" Rating answer: #{answer.votes.sum(:value)}
+  hr
+  p Comments
+  ul id="answer_#{answer.id}_comment"
+      =render partial: 'comments/comments_list', locals: { commentable: answer }
+  -if user_signed_in?
+    .answer_comment_form
+      hr
+      button.btn.btn-primary.create_comment data-answer-id="#{answer.id}" create comment
+      =render partial: 'comments/comment_form', locals: { commentable: answer }
   
