@@ -1,0 +1,193 @@
+<style>
+  .category_list li{
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-bottom: 1px solid gray;
+  }
+  .category_list li:hover{
+    -webkit-box-shadow: inset -2px -28px 136px -6px rgba(224,218,58,0.3);
+    -moz-box-shadow: inset -2px -28px 136px -6px rgba(224,218,58,0.3);
+    box-shadow: inset -2px -28px 136px -6px rgba(224,218,58,0.3);
+  }
+	.bx_catalog_tile_img{
+		width:160px;
+		height:120px;
+	}
+  .phone_list li{
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  .phone_list{
+    margin-bottom: 20px;
+  }
+  .top_info_data h1{
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid rgb(218,37,29);
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 991px){
+    .category_list li{
+      width: 50%;
+      float: left;
+    }
+    .category_list li h2{
+      font-size: 17px;
+    }
+  }
+</style>
+<div style='display:none'>
+<div class="wrap_abs_block">
+	 <?
+
+        if(!$USER->IsAuthorized())
+        {
+            $APPLICATION->IncludeComponent(
+                "bitrix:system.auth.form",
+                "template1",
+                Array(
+                    "COMPONENT_TEMPLATE" => ".default",
+                    "REGISTER_URL" => "/auth/?register=yes",
+                    "FORGOT_PASSWORD_URL" => "/auth/?forgot_password=yes",
+                    "PROFILE_URL" => "/personal/",
+                    "SHOW_ERRORS" => "Y"
+                )
+            );
+        }
+    ?>
+</div>
+</div>
+<div>
+ <?
+    $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/scripts/swiper/swiper.min.css");
+    $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/scripts/swiper/swiper.min.js");
+    ?> <script>
+        jQuery(function($){
+            var swiper = new Swiper('.swiper-container', {
+                scrollbar: '.swiper-scrollbar',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                slidesPerView: 'auto',
+                scrollbarHide: false,
+                scrollbarDraggable: true,
+            });
+        });
+    </script>
+</div>
+<div class="visible-xs visible-sm top_info_data" style="text-align:center;">
+   <ul class="phone_list">
+     <li><img alt="velcom_logo_V_color.png" src="//vkusnotey.by.opt-images.1c-bitrix-cdn.ru/upload/medialibrary/a74/a74543e3644fb68a201cfb235cc6e2f8.png?14564108321119" title="velcom_logo_V_color.png" style="line-height: 1.42857143;" width="20" height="15">
+      +375 (44) 585-85-85
+      </li>
+     <li>
+       <img alt="mts.gif" src="//vkusnotey.by.opt-images.1c-bitrix-cdn.ru/upload/medialibrary/4a8/4a80274e0a70e68d62361c473fcb1d4b.gif?1456410573944" title="mts.gif" width="18" height="18">
+       +375 (29) 539-85-85
+    </li>
+   </ul>
+   <p>Приём заказов  с 11.00 до 21:50(пт, сб, праздники до 22:50)</p>
+   <h1>Меню</h1>
+</div>
+
+<div class="visible-xs visible-sm" style="text-align:center;">
+<ul class="category_list">
+  <li>
+    <a href="/eda/pizza/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/iblock/1f2/1f268fd55e74ff3001629f5a77a0a7b8.png'); background-position: center; background-size: contain;"></a><h2>Пицца</h2>
+  </li>
+  <li>
+    <a href="/eda/ingredienty-k-pitstse/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/d79/d79a2904ee4e2cc0c2adef6f096515b9.png'); background-position: center; background-size: contain;"></a><h2>Ингредиенты к пицце</h2>
+  </li>
+  <li>
+    <a href="/eda/dostavka-shashlyka/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/edb/edbe7b1a0b74ff5137531fd8499d8f17.png'); background-position: center; background-size: contain;"></a><h2>Блюда на мангале, гриле</h2>
+  </li>
+  <li>
+    <a href="/eda/burgery/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/55a/55a769a07630272c0aae19ff5a2d7958.png'); background-position: center; background-size: contain;"></a><h2>Бургеры</h2>
+  </li>
+  <li>
+    <a href="/eda/plov/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/9b7/9b7e05f7ea421e85e1fb49e64eb07704.png'); background-position: center; background-size: contain;"></a><h2>Плов</h2>
+  </li>
+  <li>
+    <a href="/eda/sushi/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/56e/56e68e0bed1d0888b85e5483e6a30912.png'); background-position: center; background-size: contain;"></a><h2>Суши</h2>
+  </li>
+  <li>
+    <a href="/eda/sety1/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/89a/89a2f11fc94efd045ebace1f3679d56f.png'); background-position: center; background-size: contain;"></a><h2>Сеты</h2>
+  </li>
+  <li>
+    <a href="/eda/blyuda-vo-frityure/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/iblock/fd1/fd14492f174f1874b8ebd47d59ef83b8.png'); background-position: center; background-size: contain;"></a><h2>Блюда во фритюре</h2>
+  </li>
+  <li>
+    <a href="/eda/salaty/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/iblock/aae/aae3d2ab22aea4cb103a65613574b0b7.png'); background-position: center; background-size: contain;"></a><h2>Салаты</h2>
+  </li>
+  <li>
+    <a href="/eda/supy/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/03d/03d06b8110fe6169470db70b08f0f699.png'); background-position: center; background-size: contain;"></a><h2>Супы</h2>
+  </li>
+  <li>
+    <a href="/eda/kompleksnye-obedy-/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/iblock/eca/ecaf97e1ebc0e5d74ad103bd3cb1130d.png'); background-position: center; background-size: contain;"></a><h2>Комплексные обеды</h2>
+  </li>
+  <li>
+    <a href="/eda/postnoe-menyu/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/22a/22a1c49bf1909acf63becd596bc4f2d4.png'); background-position: center; background-size: contain;"></a><h2>Постное меню</h2>
+  </li>
+  <li>
+    <a href="/eda/sousy/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/iblock/afc/afcb1cddfd9374cf4b8313bc21ca6f5b.png'); background-position: center; background-size: contain;"></a><h2>Соусы</h2>
+  </li>
+  <li>
+    <a href="/eda/deserty/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('/upload/medialibrary/ddb/ddbb784ecbaecca31eb0cfce6c90df63.png'); background-position: center; background-size: contain;"></a><h2>Десерты</h2>
+  </li>
+  <li>
+    <a href="/eda/napitki/" style="height:120px;widht:160px;background-repeat:no-repeat;display:block; background-image:url('upload/iblock/562/562a0e8a337b9575e8d30094becdbccc.png'); background-position: center; background-size: contain;"></a><h2>Напитки</h2>
+  </li>
+</ul>
+</div>
+	<div class="cart_block hidden-xs hidden-sm">
+		 <?$APPLICATION->IncludeComponent(
+	"bitrix:sale.basket.basket.line",
+	"template1",
+	Array(
+		"COMPONENT_TEMPLATE" => "template1",
+		"PATH_TO_BASKET" => "/personal/cart/",
+		"SHOW_NUM_PRODUCTS" => "N",
+		"SHOW_TOTAL_PRICE" => "Y",
+		"SHOW_С условиями доставки согласенS" => "Y",
+		"SHOW_PERSONAL_LINK" => "N",
+		"PATH_TO_PERSONAL" => "/personal/",
+		"SHOW_AUTHOR" => "N",
+		"PATH_TO_REGISTER" => "/login/",
+		"PATH_TO_PROFILE" => "/personal/",
+		"SHOW_PRODUCTS" => "N",
+		"POSITION_FIXED" => "N"
+	)
+);?>
+	</div>
+
+<div class="hidden-xs hidden-sm" style="margin-top:300px;">
+ <?$APPLICATION->IncludeComponent(
+	"bitrix:catalog.section.list", 
+	"main_slider", 
+	array(
+		"COMPONENT_TEMPLATE" => "main_slider",
+		"IBLOCK_TYPE" => "catalog",
+		"IBLOCK_ID" => "6",
+		"SECTION_ID" => $_REQUEST["SECTION_ID"],
+		"SECTION_CODE" => "",
+		"COUNT_ELEMENTS" => "N",
+		"TOP_DEPTH" => "2",
+		"SECTION_FIELDS" => array(
+			0 => "",
+			1 => "",
+		),
+		"SECTION_USER_FIELDS" => array(
+			0 => "",
+			1 => "",
+		),
+		"VIEW_MODE" => "TILE",
+		"SHOW_PARENT_NAME" => "Y",
+		"SECTION_URL" => "",
+		"CACHE_TYPE" => "A",
+		"CACHE_TIME" => "36000000",
+		"CACHE_GROUPS" => "Y",
+		"ADD_SECTIONS_CHAIN" => "Y",
+		"HIDE_SECTION_NAME" => "N"
+	),
+	false
+);?>
+</div>
