@@ -1,4 +1,4 @@
--if user_signed_in? && current_user.author_of?(@question)
+-if can?(:destroy, @question) && can?(:update, @question)
   p= link_to 'Delete question', question_path(@question), method: :delete
   p= link_to 'Edit question', '', class:'edit_question_link'
   =render partial: 'questions/form_question', locals: { btn_name: 'Save Question'}

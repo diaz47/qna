@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   before_action :build_answer, :load_answers, only: [:show]
   after_action :publish_question, only: [:create]
   respond_to :html
+  authorize_resource
   include VoteFor
 
   def index
@@ -23,11 +24,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.destroy) if current_user.author_of?(@question)
+    respond_with(@question.destroy)
   end
 
   def update
-    @question.update(questions_params) if current_user.author_of?(@question)
+    @question.update(questions_params)
     respond_with @question
   end
 

@@ -6,6 +6,9 @@ class AnswersController < ApplicationController
   before_action :get_question, only: [:update, :select_best_answer]
   after_action :publish_answer, only: [:create]
   respond_to :js
+
+  authorize_resource
+  
   include VoteFor
 
   def create
@@ -13,16 +16,16 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
     respond_with @answer
   end
 
   def select_best_answer
-    @answer.set_best_answer if current_user.author_of?(@question)
+    @answer.set_best_answer 
     respond_with @question
   end
 

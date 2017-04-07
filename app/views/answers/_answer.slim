@@ -4,10 +4,10 @@ li id="answer_id_#{answer.id}"
     -answer.attachments.each do |a|
       li id="attach_id_#{a.id}"
         = link_to a.file.filename, a.file.url
-        -if user_signed_in? && current_user.author_of?(answer)
+        -if can?(:destroy, a)
           p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
 
-  -if user_signed_in? && current_user.author_of?(answer)
+  -if can?(:destroy, answer) && can?(:update, answer)
     p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
     p= link_to 'Edit answer', '', class: "edit-answer-link", data: { answer_id: answer.id }
     p
@@ -19,7 +19,7 @@ li id="answer_id_#{answer.id}"
       p
         = link_to_add_association 'add attachments', f, :attachments, partial: 'shared/attachments_filed'
       =f.submit 'Save', class: 'btn btn-success'
-  -if user_signed_in? && current_user.author_of?(@question) && !answer.best_answer
+  -if can?(:select_best_answer, answer) && !answer.best_answer
     p= link_to 'Mark as the best', select_best_answer_answer_path(answer), method: :patch
 
   -if user_signed_in?
