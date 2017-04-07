@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    
     respond_to do |format|
       format.html { redirect_to root_path, notice: exception.message }
       format.js { render template: 'shared/forbidden_status', status: 403 }
