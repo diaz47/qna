@@ -11,4 +11,12 @@ class ApplicationController < ActionController::Base
   def gon_user
     gon.user_id = current_user.id if current_user
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: exception.message }
+      format.js { render template: 'shared/forbidden_status', status: 403 }
+      format.json { render json: exception, status: 403}
+    end
+  end
 end
