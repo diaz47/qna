@@ -22,8 +22,8 @@ class Ability
   def user_ability
     guest_ability
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer], user: user
+    can :update, [Question, Answer], user_id: user.try(:id)
+    can :destroy, [Question, Answer], user_id: user.try(:id)
 
     can :destroy, Attachment do |attachment|
       user.author_of?(attachment.attachable)
@@ -32,6 +32,12 @@ class Ability
     can :select_best_answer, Answer do |answer|
       user.author_of?(answer.question)
     end
+
+    can :me, User, id: user.try(:id)
+    can :create, [Question, Answer], user_id: user.try(:id)
+    can :show, [Question, Answer], user_id: user.try(:id)
+    can :index, [Question, Answer], user_id: user.try(:id)
+    can :index, User, id: user.try(:id)
   end
 
   def admin_ability
