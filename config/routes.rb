@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :profiles, only: [:index] do
         get :me, on: :collection
-        get :users, on: :collection
       end
       resources :questions do
         resources :answers, shallow: true

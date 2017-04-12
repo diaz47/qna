@@ -49,5 +49,10 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :destroy, create(:attachment, attachable: question_user), user: user}
     it { should_not be_able_to :destroy, create(:attachment, attachable: answer_other), user: user}
 
+    context 'API' do
+      it { should be_able_to :me, user }
+      it { should_not be_able_to :me, other }
+    end
+
   end
 end

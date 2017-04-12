@@ -5,7 +5,6 @@ class Ability
 
   def initialize(user)
     @user= user
-    user ||= User.new # guest user
 
     if user
       user.admin? ? admin_ability : user_ability
@@ -22,8 +21,8 @@ class Ability
   def user_ability
     guest_ability
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user_id: user.try(:id)
-    can :destroy, [Question, Answer], user_id: user.try(:id)
+    can :update, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer], user_id: user.id
 
     can :destroy, Attachment do |attachment|
       user.author_of?(attachment.attachable)
@@ -33,11 +32,9 @@ class Ability
       user.author_of?(answer.question)
     end
 
-    can :me, User, id: user.try(:id)
-    can :create, [Question, Answer], user_id: user.try(:id)
-    can :show, [Question, Answer], user_id: user.try(:id)
-    can :index, [Question, Answer], user_id: user.try(:id)
-    can :index, User, id: user.try(:id)
+    can :me, User, id: user.id
+    can :index, User, id: user.id
+
   end
 
   def admin_ability
