@@ -5,7 +5,6 @@ class Ability
 
   def initialize(user)
     @user= user
-    user ||= User.new # guest user
 
     if user
       user.admin? ? admin_ability : user_ability
@@ -32,6 +31,10 @@ class Ability
     can :select_best_answer, Answer do |answer|
       user.author_of?(answer.question)
     end
+
+    can :me, User, id: user.id
+    can :index, User, id: user.id
+
   end
 
   def admin_ability
