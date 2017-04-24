@@ -29,7 +29,7 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe 'notificator_sub' do
+  describe 'notificate_subscribers' do
     let(:user){ create :user }
     let(:question) { create :question, user: user }
     subject { build :answer, question: question }

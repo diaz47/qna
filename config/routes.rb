@@ -14,20 +14,19 @@ Rails.application.routes.draw do
     end
   end
 
-  concern :votable do 
+  concern :votable do
     member do
       post :vote
       delete :delete_vote
     end
   end
-  
+
   resources :questions, concerns: :votable do
-    post :subscribe, on: :member
-    delete :unsubscribe, on: :member
     resources :answers, shallow: true, concerns: :votable do
       patch :select_best_answer, on: :member
     end
   end
+  resources :subscribes, only: [:create, :destroy]
   resources :attachments, only: [:destroy]
   resources :comments, only: [:create]
 

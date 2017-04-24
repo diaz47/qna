@@ -11,16 +11,6 @@ class QuestionsController < ApplicationController
     respond_with (@questions = Question.all)
   end
 
-  def subscribe
-    @subscribe = @question.subscribes.create(user: current_user) if user_signed_in? && !@question.subscribes.exists?(user_id: current_user.id)
-    respond_with @question
-  end
-
-  def unsubscribe
-    @subscriber = @question.subscribes.where(user_id: current_user.id).first.destroy if user_signed_in? && @question.subscribes.exists?(user_id: current_user.id)
-    respond_with @question
-  end
-
   def show
     @comment = Comment.new
   end
@@ -31,7 +21,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.create(questions_params)
-    @question.subscribes.create(user: current_user)
     respond_with @question
   end
 

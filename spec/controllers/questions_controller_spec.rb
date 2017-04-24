@@ -200,47 +200,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
-  context 'POST #subscribe' do
-    let(:question) { create(:question) }
-
-    context 'Authorize user' do
-      sign_in_user
-
-      it 'create new sub to question' do
-        expect{ post :subscribe, id: question.id }.to change(question.subscribes, :count).by(1)
-      end
-
-      it 'create new sub to user' do
-        expect{ post :subscribe, id: question.id }.to change(@user.subscribes, :count).by(1)
-      end
-    end
-    context 'Unauthorize user' do
-      it 'create new sub to question' do
-        expect{ post :subscribe, id: question.id, user: nil }.to_not change(question.subscribes, :count)
-      end
-    end
-  end
-
-  context 'POST #unsubscribe' do
-    let!(:question) { create(:question) }
-
-    context 'Authorize user' do
-      sign_in_user
-
-      it 'delete sub from question' do
-        expect{ delete :unsubscribe, id: question.id }.to change(question.subscribes, :count).by(-1)
-      end
-
-      it 'delete sub from user' do
-        expect{ delete :unsubscribe, id: question.id }.to change(@user.subscribes, :count).by(-1)
-      end
-    end
-
-    context 'Unauthorize user' do
-      it 'delete sub from question' do
-        expect{ delete :unsubscribe, id: question.id, user: nil }.to_not change(question.subscribes, :count)
-      end
-    end
-  end
 end

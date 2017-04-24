@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  after_commit :notificator_sub
+  after_commit :notificate_subscribers
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
   scope :best_answer_show_first, -> { order(best_answer: :desc) }
@@ -19,7 +19,7 @@ class Answer < ApplicationRecord
   end
 
   private
-  def notificator_sub
+  def notificate_subscribers
     SubJob.perform_later(self)
   end
 end
