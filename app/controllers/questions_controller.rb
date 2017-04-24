@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :build_answer, :load_answers, only: [:show]
   after_action :publish_question, only: [:create]
   respond_to :html
-  #authorize_resource
+  authorize_resource
   include VoteFor
 
   def index
