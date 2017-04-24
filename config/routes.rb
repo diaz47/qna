@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   end
   
   resources :questions, concerns: :votable do
+    post :subscribe, on: :member
+    delete :unsubscribe, on: :member
     resources :answers, shallow: true, concerns: :votable do
       patch :select_best_answer, on: :member
     end

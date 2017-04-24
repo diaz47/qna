@@ -12,7 +12,7 @@ RSpec.describe Answer, type: :model do
   describe 'select best answer' do
     let(:question) { create(:question)}
     let(:answer) { create(:answer, question: question)}
-    
+
 
     it 'answer should be best' do
       answer.set_best_answer
@@ -26,6 +26,17 @@ RSpec.describe Answer, type: :model do
       prev_answer.reload
 
       expect(prev_answer).to_not be_best_answer
+    end
+  end
+
+  describe 'notificator_sub' do
+    let(:user){ create :user }
+    let(:question) { create :question, user: user }
+    subject { build :answer, question: question }
+
+    it 'should start job after commit ' do
+      expect(SubJob).to receive(:perform_later).with(subject)
+      subject.save!
     end
   end
 end

@@ -1,0 +1,6 @@
+h1 Daily digest
+p You can see new questions today
+
+ul
+  -@questions.each do |question|
+    li=  link_to question.title, question_url(question)
