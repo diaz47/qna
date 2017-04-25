@@ -4,12 +4,12 @@ class SubscribesController < ApplicationController
   authorize_resource
 
   def create
-    @subscribe = @question.subscribes.create(user: current_user) if !@question.subscribes.exists?(user_id: current_user.id)
+    @subscribe = @question.subscribes.create(user: current_user) if !current_user.subscribed?(@question)
     respond_with @question
   end
 
   def destroy
-    @subscriber = @question.subscribes.where(user_id: current_user.id).first.destroy if @question.subscribes.exists?(user_id: current_user.id)
+    @subscriber = @question.subscribes.where(user_id: current_user.id).first.destroy if current_user.subscribed?(@question)
     respond_with @question
   end
 

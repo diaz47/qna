@@ -94,4 +94,19 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'subscribed?' do
+    let(:sub_user){ create(:user) }
+    let(:unsub_user){ create(:user) }
+    let(:question){ create(:question) }
+    let!(:subscribtion){ create(:subscribe, user: sub_user, question: question) }
+
+    it 'check subscribe user' do
+      expect(sub_user.subscribed?(question)).to eq true
+    end
+
+    it 'check unsubscribe user' do
+      expect(unsub_user.subscribed?(question)).to eq false
+    end
+  end
 end

@@ -13,7 +13,7 @@ class User < ApplicationRecord
   end
 
   def subscribed?(question)
-    @sub = Subscribe.exists?(user_id: id, question_id: question.id)
+    Subscribe.exists?(user_id: id, question_id: question.id)
   end
 
   def self.find_for_oauth(auth)
@@ -24,11 +24,11 @@ class User < ApplicationRecord
     user = User.where(email: email).first
     if user
       user.autharizations.create(provider: auth.provider, uid: auth.uid)
-    else 
+    else
       password = Devise.friendly_token[0,20]
       user = User.create!(email: email, password: password, password_confirmation: password)
       user.autharizations.create(provider: auth.provider, uid: auth.uid)
-    end 
+    end
     user
   end
 end
