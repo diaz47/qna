@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
-  before_action :set_question, only: [:show, :destroy, :update]
+  before_action :set_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
   before_action :build_answer, :load_answers, only: [:show]
   after_action :publish_question, only: [:create]
   respond_to :html
@@ -20,7 +20,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    respond_with(@question = current_user.questions.create(questions_params))
+    @question = current_user.questions.create(questions_params)
+    respond_with @question
   end
 
   def destroy
@@ -42,16 +43,16 @@ class QuestionsController < ApplicationController
   end
 
   def build_answer
-    @answer = @question.answers.build    
+    @answer = @question.answers.build
   end
 
   def load_answers
-    @answers = @question.answers.best_answer_show_first    
+    @answers = @question.answers.best_answer_show_first
   end
   def publish_question
     return if @question.errors.any?
-    ActionCable.server.broadcast 'questions', ApplicationController.render( 
-      partial: 'questions/question', 
+    ActionCable.server.broadcast 'questions', ApplicationController.render(
+      partial: 'questions/question',
       locals: { question: @question}
     )
   end
