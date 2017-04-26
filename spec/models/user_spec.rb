@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers) }
   it { should have_many(:questions) }
   it { should have_many(:autharizations) }
+  it { should have_many :subscribes }
 
   describe '.find_for_oauth' do
     let!(:user){ create(:user) }
@@ -91,6 +92,21 @@ RSpec.describe User, type: :model do
       it "user_id != answer_id" do
         expect(user.author_of?(answer)).to eq false
       end
+    end
+  end
+
+  describe 'subscribed?' do
+    let(:sub_user){ create(:user) }
+    let(:unsub_user){ create(:user) }
+    let(:question){ create(:question) }
+    let!(:subscribtion){ create(:subscribe, user: sub_user, question: question) }
+
+    it 'check subscribe user' do
+      expect(sub_user.subscribed?(question)).to eq true
+    end
+
+    it 'check unsubscribe user' do
+      expect(unsub_user.subscribed?(question)).to eq false
     end
   end
 end

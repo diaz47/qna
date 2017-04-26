@@ -25,6 +25,7 @@ RSpec.describe Ability, type: :model do
     let(:question_other) { create :question, user: other }
     let(:answer_other) { create :answer, user: other, question: question_other }
 
+    let(:user_sub){ create(:subscribe, user: user, question: question_user)}
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -32,13 +33,17 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscribe }
+
+
+    it { should be_able_to :destroy, user_sub }
 
     it { should be_able_to :update, create(:question, user: user), user: user}
     it { should_not be_able_to :update, create(:question, user: other), user: user}
 
     it { should be_able_to :update, create(:answer, user: user), user: user}
     it { should_not be_able_to :update, create(:answer, user: other), user: user}
-    
+
 
     it { should be_able_to :destroy, create(:question, user: user), user: user}
     it { should_not be_able_to :destroy, create(:question, user: other), user: user}

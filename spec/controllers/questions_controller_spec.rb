@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
-  describe 'GET #index' do 
+  describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
     before { get :index }
@@ -90,7 +90,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Author question' do
       it 'delete question from the db' do
         question
-        expect { delete :destroy, id: question }.to change(Question, :count).by(-1) 
+        expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
       end
       it 'redirect to questions path' do
         delete :destroy, id: question
@@ -167,9 +167,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :vote, user_id: @user.id, id: question.id, value: 1, format: :json }.to_not change(question.votes, :count)
       end
     end
-    
 
-    context 'No Author of question try vote for question' do 
+
+    context 'No Author of question try vote for question' do
       sign_in_user
       let(:question) { create(:question) }
 
@@ -179,7 +179,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  context 'POST #delete_vote' do 
+  context 'POST #delete_vote' do
     context 'No author of question try reset vote' do
       sign_in_user
       let(:question) { create(:question) }
@@ -190,8 +190,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :delete_vote, user_id: @user.id, id: question.id, format: :json }.to change(question.votes, :count)
       end
     end
-    
-    context 'Author of question try reset vote' do 
+
+    context 'Author of question try reset vote' do
       sign_in_user
       let(:question) { create(:question, user: @user) }
 
