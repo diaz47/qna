@@ -30,5 +30,7 @@ Rails.application.routes.draw do
   resources :attachments, only: [:destroy]
   resources :comments, only: [:create]
 
+  resources :search, only: [:index]
+
   mount ActionCable.server => '/cable'
 end
