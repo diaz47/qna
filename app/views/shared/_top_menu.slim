@@ -10,5 +10,5 @@ nav.navbar.navbar-light.bg-faded.rounded.navbar-toggleable-md.top_menu_header
         =user_signed_in? ? link_to("Log out", destroy_user_session_path, method: :delete, class: 'nav-link') : link_to("Log In", new_user_session_path, class: 'nav-link')
     =form_tag search_index_path, class: 'form-inline my-2 my-md-0 search_field', method: :get do
       =text_field_tag :query, nil, palceholder: 'Search', class: 'form-control mr-sm-2'
-      =select_tag 'source', options_for_select(['Everyware', 'Comments', 'Questions', 'Answers']), class: 'form-control'
+      =select_tag 'source', options_for_select(Search::SOURCES), class: 'form-control'
       =submit_tag 'Search', class: 'btn btn-outline-success my-2.my-sm-0'
