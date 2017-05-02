@@ -5,10 +5,6 @@ class Search < ApplicationRecord
     request = ThinkingSphinx::Query.escape(query)
     return [] if !SOURCES.include?(source) || request.blank?
 
-    if source == 'Everyware'
-      ThinkingSphinx.search(request)
-    else
-      source.classify.constantize.search(request)
-    end
+    source == 'Everyware' ? ThinkingSphinx.search(request) : source.classify.constantize.search(request)
   end
 end
