@@ -1,5 +1,5 @@
 nav.navbar.navbar-light.bg-faded.rounded.navbar-toggleable-md.top_menu_header
-  button.navbar-toggler.navbar-toggler-right aria-controls="containerNavbar" aria-expanded="false" aria-label=("Toggle navigation") data-target="#containerNavbar" data-toggle="collapse" type="button" 
+  button.navbar-toggler.navbar-toggler-right aria-controls="containerNavbar" aria-expanded="false" aria-label=("Toggle navigation") data-target="#containerNavbar" data-toggle="collapse" type="button"
     span.navbar-toggler-icon
   = link_to "StackOverflow", root_path, class: 'navbar-brand'
   #containerNavbar.collapse.navbar-collapse
@@ -8,6 +8,7 @@ nav.navbar.navbar-light.bg-faded.rounded.navbar-toggleable-md.top_menu_header
         =link_to "Ask Question", new_question_path, class: 'nav-link'
       li.nav-item
         =user_signed_in? ? link_to("Log out", destroy_user_session_path, method: :delete, class: 'nav-link') : link_to("Log In", new_user_session_path, class: 'nav-link')
-    form.form-inline.my-2.my-md-0.search_field
-      input.form-control.mr-sm-2 placeholder="Search" type="text" /
-      button.btn.btn-outline-success.my-2.my-sm-0 type="submit"  Search
+    =form_tag search_index_path, class: 'form-inline my-2 my-md-0 search_field', method: :get do
+      =text_field_tag :query, nil, palceholder: 'Search', class: 'form-control mr-sm-2'
+      =select_tag 'source', options_for_select(Search::SOURCES), class: 'form-control'
+      =submit_tag 'Search', class: 'btn btn-outline-success my-2.my-sm-0'
