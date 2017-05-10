@@ -3,5 +3,5 @@ every 1.day do
 end
 
 every 60.minutes do
-  rails "ts:index"
+  rake "ts:index"
 end
