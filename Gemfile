@@ -57,6 +57,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'mina-unicorn', :require => false
 gem 'unicorn'
 
 group :development, :test do
