@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'sprockets'
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'font-awesome-sass'
 gem 'carrierwave'
@@ -54,6 +55,8 @@ gem 'whenever'
 gem 'sidekiq'
 gem 'mysql2'
 gem 'thinking-sphinx'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 
 group :development, :test do
@@ -73,6 +76,12 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem "letter_opener"
+
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
