@@ -413,7 +413,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
-  sprockets
+  sprockets (= 3.7.1)
   therubyracer
   thinking-sphinx
   turbolinks (~> 5)
