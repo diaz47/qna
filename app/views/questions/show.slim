@@ -1,39 +1,40 @@
-.question data-question-id="#{@question.id}"
-  -if user_signed_in?
-    .rating_question
-      =render partial: 'shared/vote', locals: { element: @question, path_arg: @question}
-    -if current_user.subscribed?(@question)
-      =link_to 'Unsubscribe', subscribe_path(@question), method: :delete
-    -else
-      =link_to 'Subscribe', subscribes_path(id: @question.id), method: :post
-  p.question_sum Rating question: #{@question.votes.sum(:value)}
-  h1.title_question= @question.title
-  p.body_question= @question.body
-  p Attachments
-  ol.attach_list
-    -@question.attachments.each do |a|
-      li id="attach_id_#{a.id}"
-        = link_to a.file.filename, a.file.url
-        -if user_signed_in? && current_user.author_of?(@question)
-          p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
-  .question_tools
-    =render 'question_tools'
-  .question_errors
-  hr
-  p Comments
-  ul id="question_#{@question.id}_comment"
-    =render partial: 'comments/comments_list', locals: { commentable: @question }
--if user_signed_in?
-  .question_comment_form
+- cache @question do  
+  .question data-question-id="#{@question.id}"
+    -if user_signed_in?
+      .rating_question
+        =render partial: 'shared/vote', locals: { element: @question, path_arg: @question}
+      -if current_user.subscribed?(@question)
+        =link_to 'Unsubscribe', subscribe_path(@question), method: :delete
+      -else
+        =link_to 'Subscribe', subscribes_path(id: @question.id), method: :post
+    p.question_sum Rating question: #{@question.votes.sum(:value)}
+    h1.title_question= @question.title
+    p.body_question= @question.body
+    p Attachments
+    ol.attach_list
+      -@question.attachments.each do |a|
+        li id="attach_id_#{a.id}"
+          = link_to a.file.filename, a.file.url
+          -if user_signed_in? && current_user.author_of?(@question)
+            p= link_to 'Delete', attachment_path(a), method: :delete, remote: true
+    .question_tools
+      =render 'question_tools'
+    .question_errors
     hr
-    button.btn.btn-primary.create_comment data-question-id="#{@question.id}" create comment
-    =render partial: 'comments/comment_form', locals: { commentable: @question }
+    p Comments
+    ul id="question_#{@question.id}_comment"
+      =render partial: 'comments/comments_list', locals: { commentable: @question }
+  -if user_signed_in?
+    .question_comment_form
+      hr
+      button.btn.btn-primary.create_comment data-question-id="#{@question.id}" create comment
+      =render partial: 'comments/comment_form', locals: { commentable: @question }
+    hr
+    .errors_list
+    =render 'answers/form'
+  -else
+    p= link_to "sign in for create question", new_user_session_path
   hr
-  .errors_list
-  =render 'answers/form'
--else
-  p= link_to "sign in for create question", new_user_session_path
-hr
-h3 Answers
-ul.answer_list
-    =render @answers
+  h3 Answers
+  ul.answer_list
+      =render @answers
